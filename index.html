@@ -349,6 +349,37 @@
             font-size: 18px;
             text-align: center;
             color: #FBBF24;
+            margin-bottom: 15px;
+        }
+
+        .screenshot-features {
+            text-align: left;
+            padding: 0 10px;
+            margin-top: 15px;
+        }
+
+        .screenshot-features ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .screenshot-features li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .screenshot-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #FBBF24;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         /* Technical Details */
@@ -639,7 +670,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">📱</div>
                     <h3>Progressive Web App</h3>
-                    <p>Works offline, installs like a native app, and provides a seamless experience on any device - phone, tablet, or desktop.</p>
+                    <p>Works on any OS or device, installs like a native app, and provides a seamless experience on phone, tablet, or desktop.</p>
                 </div>
 
                 <div class="feature-card">
@@ -773,26 +804,74 @@
                 <div class="screenshot-item">
                     <img src="checkin.jpeg" alt="Student Check-in Screen">
                     <h4>Student Check-In</h4>
+                    <div class="screenshot-features">
+                        <ul>
+                            <li>GPS geofencing verification</li>
+                            <li>Email or phone check-in</li>
+                            <li>Session tracking display</li>
+                            <li>Location status indicator</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="screenshot-item">
                     <img src="studentportal.jpeg" alt="Student Portal">
                     <h4>Student Portal</h4>
+                    <div class="screenshot-features">
+                        <ul>
+                            <li>PIN-protected access</li>
+                            <li>Attendance history view</li>
+                            <li>Quiz scores & averages</li>
+                            <li>Personal statistics dashboard</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="screenshot-item">
                     <img src="teacherdb.jpeg" alt="Teacher Dashboard">
                     <h4>Teacher Dashboard</h4>
+                    <div class="screenshot-features">
+                        <ul>
+                            <li>Real-time attendance stats</li>
+                            <li>Session management</li>
+                            <li>Holiday calendar control</li>
+                            <li>CSV export functionality</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="screenshot-item">
                     <img src="quiz.jpeg" alt="Quiz Management">
                     <h4>Quiz Management</h4>
+                    <div class="screenshot-features">
+                        <ul>
+                            <li>Create & manage quizzes</li>
+                            <li>Enter scores for all students</li>
+                            <li>Track completion rates</li>
+                            <li>Automatic grade calculation</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="screenshot-item">
                     <img src="record.jpeg" alt="Student Records">
                     <h4>Student Records</h4>
+                    <div class="screenshot-features">
+                        <ul>
+                            <li>Individual student analytics</li>
+                            <li>Attendance percentages</li>
+                            <li>Quiz performance tracking</li>
+                            <li>Comprehensive reports</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="screenshot-item">
                     <img src="pin.jpeg" alt="PIN Management">
                     <h4>PIN Management</h4>
+                    <div class="screenshot-features">
+                        <ul>
+                            <li>Set 6-digit student PINs</li>
+                            <li>SHA-256 encryption</li>
+                            <li>Reset PIN capability</li>
+                            <li>PIN status overview</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
