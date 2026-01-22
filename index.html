@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Studies Attendance System - Smart Classroom Management</title>
+    <meta name="description" content="A comprehensive Progressive Web App for managing attendance and grades in Islamic Studies classes. Features geofencing, quiz management, and real-time tracking.">
+    <link rel="icon" href="icon-192.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1F2937;
+            background: #F9FAFB;
+        }
+
+        /* Header / Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '🕌';
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.1;
+            top: -50px;
+            right: -50px;
+            transform: rotate(15deg);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #FBBF24;
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1e3a8a;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #1e3a8a;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 20px;
+        }
+
+        section h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
+
+        section .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #6B7280;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            background: #F9FAFB;
+            border: 2px solid #E5E7EB;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+            border-color: #3b82f6;
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #1e3a8a;
+        }
+
+        .feature-card p {
+            color: #6B7280;
+            line-height: 1.7;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .step {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
+        }
+
+        .step h3 {
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #1e3a8a;
+            font-size: 20px;
+        }
+
+        .step p {
+            color: #6B7280;
+            line-height: 1.7;
+        }
+
+        /* User Roles Section */
+        .user-roles {
+            background: white;
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .role-card {
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #D1D5DB;
+        }
+
+        .role-card h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .role-card ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .role-card li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #4B5563;
+            font-size: 16px;
+        }
+
+        .role-card li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10B981;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        .screenshots h2 {
+            color: white;
+        }
+
+        .screenshots .section-subtitle {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .screenshot-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .screenshot-item h4 {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            color: #FBBF24;
+        }
+
+        /* Technical Details */
+        .tech-stack {
+            background: white;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .tech-item {
+            text-align: center;
+            padding: 25px;
+            background: #F3F4F6;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            background: #EFF6FF;
+            transform: scale(1.05);
+        }
+
+        .tech-item .tech-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .tech-item h4 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .tech-item p {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .subtitle {
+                font-size: 20px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            section h2 {
+                font-size: 28px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .features-grid,
+            .roles-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #FBBF24;
+            color: #1e3a8a;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            padding: 60px 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">🕌 Islamic Education Technology</div>
+            <h1>Foundations of Aqeedah</h1>
+            <p class="subtitle">Class Attendance System</p>
+            <p>A comprehensive Progressive Web App designed for modern Islamic Studies classrooms. Track attendance with geofencing, manage quiz grades, and empower students with secure access to their academic progress.</p>
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">🚀 Launch App</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">2</div>
+                <div class="stat-label">User Roles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Mobile Friendly</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Secure</div>
+                <div class="stat-label">PIN Protection</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Real-Time</div>
+                <div class="stat-label">Analytics</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>✨ Key Features</h2>
+            <p class="section-subtitle">Everything you need to manage attendance and grades for year-long Islamic Studies courses</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Geofencing Technology</h3>
+                    <p>Location-based check-ins ensure students are physically present in the classroom. Automatic verification prevents remote attendance.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Smart Attendance Tracking</h3>
+                    <p>Track attendance across 104 sessions with automatic session advancement, holiday management, and duplicate check-in prevention.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Quiz Management</h3>
+                    <p>Create quizzes, enter scores, and calculate averages automatically. Students can view their grades securely through the student portal.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>PIN-Protected Access</h3>
+                    <p>Students access their stats with secure 6-digit PINs. SHA-256 encrypted pins ensure privacy and data security.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-Time Analytics</h3>
+                    <p>Teachers get instant insights: total students, session attendance rates, individual records, and comprehensive reports.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Progressive Web App</h3>
+                    <p>Works offline, installs like a native app, and provides a seamless experience on any device - phone, tablet, or desktop.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Multi-Student Families</h3>
+                    <p>One email or phone number can register multiple students. Parents check in all their children with one contact.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Holiday Calendar</h3>
+                    <p>Manage holidays like Eid al-Fitr, Eid al-Adha, and school breaks. System prevents check-ins on designated holidays.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Export & Backup</h3>
+                    <p>Export attendance data to CSV for external analysis, reporting, or backup. Keep records safe and accessible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>🔄 How It Works</h2>
+            <p class="section-subtitle">Simple workflow for students and teachers</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Student Registration</h3>
+                    <p>Teachers register students with their names, IDs, email/phone numbers in a secure database. Each student gets a unique identifier.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Location Verification</h3>
+                    <p>When students arrive at class, the app verifies their location using GPS geofencing to ensure they're in the classroom.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Check-In Process</h3>
+                    <p>Students enter their registered email or phone number. The system verifies registration and records attendance for the current session.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>View Progress</h3>
+                    <p>Students access their personal portal with a PIN to view attendance history, quiz scores, and attendance percentage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Roles -->
+    <section class="user-roles">
+        <div class="container">
+            <h2>👤 User Roles & Capabilities</h2>
+            <p class="section-subtitle">Tailored experiences for students, teachers, and administrators</p>
+            
+            <div class="roles-grid">
+                <div class="role-card">
+                    <h3>👨‍🎓 Students</h3>
+                    <ul>
+                        <li>Check in to class with email/phone</li>
+                        <li>View attendance history and rates</li>
+                        <li>Access quiz scores with PIN</li>
+                        <li>See days attended vs. absent</li>
+                        <li>Track quiz averages and performance</li>
+                        <li>Multiple students per family account</li>
+                    </ul>
+                </div>
+
+                <div class="role-card">
+                    <h3>👨‍🏫 Teachers</h3>
+                    <ul>
+                        <li>Google OAuth authentication</li>
+                        <li>View real-time attendance dashboard</li>
+                        <li>Create and manage quizzes</li>
+                        <li>Enter quiz scores for all students</li>
+                        <li>Set/reset student PINs</li>
+                        <li>View individual student records</li>
+                        <li>Export attendance to CSV</li>
+                        <li>Manage holidays and class schedule</li>
+                        <li>Advance to next session</li>
+                        <li>Reset data for new academic year</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots">
+        <div class="container">
+            <h2>📱 App Screenshots</h2>
+            <p class="section-subtitle">Beautiful, intuitive interface designed for mobile-first experience</p>
+            
+            <div class="screenshot-grid">
+                <div class="screenshot-item">
+                    <img src="screenshots/student-checkin.png" alt="Student Check-in Screen" onerror="this.style.display='none'">
+                    <h4>Student Check-In</h4>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/student-portal.png" alt="Student Portal" onerror="this.style.display='none'">
+                    <h4>Student Portal</h4>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/teacher-dashboard.png" alt="Teacher Dashboard" onerror="this.style.display='none'">
+                    <h4>Teacher Dashboard</h4>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/quiz-management.png" alt="Quiz Management" onerror="this.style.display='none'">
+                    <h4>Quiz Management</h4>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/student-records.png" alt="Student Records" onerror="this.style.display='none'">
+                    <h4>Student Records</h4>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/pin-management.png" alt="PIN Management" onerror="this.style.display='none'">
+                    <h4>PIN Management</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Stack -->
+    <section class="tech-stack">
+        <div class="container">
+            <h2>🛠️ Technical Stack</h2>
+            <p class="section-subtitle">Built with modern web technologies for reliability and performance</p>
+            
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">🔥</div>
+                    <h4>Firebase</h4>
+                    <p>Firestore database, Authentication, Hosting</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📱</div>
+                    <h4>PWA</h4>
+                    <p>Progressive Web App with offline support</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔐</div>
+                    <h4>OAuth 2.0</h4>
+                    <p>Google Sign-In for teacher authentication</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📍</div>
+                    <h4>Geolocation API</h4>
+                    <p>GPS-based attendance verification</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔒</div>
+                    <h4>SHA-256</h4>
+                    <p>Encrypted PIN storage and verification</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚡</div>
+                    <h4>Vanilla JS</h4>
+                    <p>No frameworks, fast and lightweight</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Modernize Your Islamic Studies Class?</h2>
+            <p>Join the digital transformation in Islamic education. Start tracking attendance and grades today.</p>
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">🚀 Launch App Now</a>
+                <a href="https://github.com/yourusername/attendance-system" class="btn btn-secondary" target="_blank">📖 Documentation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Islamic Studies Attendance System. Built for Foundations of Aqeedah.</p>
+            <p style="margin-top: 15px; opacity: 0.8;">Developed by Salah Uddin Momtaz | Los Angeles, CA</p>
+            <div class="footer-links">
+                <a href="https://github.com/yourusername/attendance-system" target="_blank">GitHub Repository</a>
+                <a href="mailto:rinkuce@gmail.com">Contact</a>
+                <a href="index.html">Launch App</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
